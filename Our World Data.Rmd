@@ -1,0 +1,152 @@
+---
+title: "Group Project"
+author: "Mo Guo"
+date: "2022-10-14"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(cowplot)
+theme_set(theme_cowplot())
+```
+
+```{r, echo=FALSE,warning=FALSE}
+owid<-read_csv("~/Documents/Computational Homework/R project/Group Project/owid-covid-data.csv")
+```
+
+```{r,echo=FALSE,warning=FALSE}
+location_name<-owid%>%select(location,date)%>%filter(date=="2020-02-28")
+head (location_name,n=81)
+```
+
+```{r,echo=FALSE,warning=FALSE}
+code_name<-owid%>%select(iso_code,date)%>%filter(date=="2020-02-28")
+head (code_name,n=81)
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=100000
+df_CHA<-owid%>%select(location,date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%filter(location=="China")
+df_CHA%>% ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +labs(title = "China")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=1000
+df_AMC<-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="United States")
+df_AMC%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +labs(title = "United States")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=1000
+df_OWID_EUR<-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Europe")
+df_OWID_EUR%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "Europe")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=10000
+df_OWID_AFR<-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Africa")
+df_OWID_AFR%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +labs(title = "Africa")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=10000
+df_KOR <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="South Korea")
+df_KOR%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "South Korea")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=1000
+df_HKG <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Hong Kong")
+df_HKG%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "Hong Kong")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=10000
+df_OWID_ASI <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Asia")
+df_OWID_ASI%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+
+  geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "Asia")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=1000
+df_CAN <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Canada")
+df_CAN%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+
+  geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "Canada")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=1000
+df_OWID_SAM <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="South Africa")
+df_OWID_SAM%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+
+  geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "South Africa")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=10000
+df_ISR <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="Israel")
+df_ISR%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_line(aes(color="new_deaths_per_million")) + 
+  geom_line(aes(y=new_vaccinations_smoothed_per_million/scale,color="new_vaccinations_per_million")) +
+  labs(title = "Israel")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="new_vaccinations_per_million"))
+```
+
+```{r,echo=FALSE,warning=FALSE}
+scale=5000
+df_OWID_WRL <-owid%>%select(location,
+                      date,new_deaths_smoothed_per_million,new_vaccinations_smoothed_per_million)%>%
+  filter(location=="World")
+df_OWID_WRL%>%  ggplot(aes(x=date, y= new_deaths_smoothed_per_million))+geom_smooth(aes(color="New Deaths")) + 
+  geom_smooth(aes(y=new_vaccinations_smoothed_per_million/scale,color="New Vaccinations")) +
+  labs(title = "World",size=30)+
+  labs(x= "Date",y = "New Deaths")+
+  scale_y_continuous(sec.axis=sec_axis(~.*scale,name="New Vaaccinations"))+
+  theme(axis.text.x=element_text(angle=90, hjust=1, size=15,colour="black"),axis.text.y=element_text(size=15,colour="black"), axis.title.x=element_text(size=20,face = "bold"), axis.title.y=element_text(size=20,face = "bold"))
+
+```
